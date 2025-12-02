@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Belajar Tajwid – Mad, Ghunnah, Qalqalah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --electric-blue:#2563eb; /* biru elektrik */
+      --electric-blue-2:#1e40af;
+      --neutral:#e5e7eb; /* abu netral */
+      --neutral-700:#374151;
+      --neutral-800:#1f2937;
+      --white:#ffffff;
+      --mad:#ef4444;       /* merah */
+      --ghunnah:#10b981;   /* hijau */
+      --qolqolah:#f59e0b;  /* kuning */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto; color:#0b1220;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(59,130,246,.25), transparent 60%),
+                  radial-gradient(1200px 600px at 110% 0%, rgba(29,78,216,.35), transparent 60%),
+                  linear-gradient(180deg, #0ea5e9 0%, #3b82f6 50%, #1e3a8a 100%);
+      background-attachment: fixed;
+    }
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{
+      display:flex;align-items:center;gap:14px;color:var(--white);padding:14px 0 24px 0
+    }
+    .logo{
+      width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg,#60a5fa 0%,#2563eb 60%,#1e3a8a 100%);
+      box-shadow:0 8px 30px rgba(2,6,23,.35), inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    .logo svg{width:28px;height:28px;fill:#fff}
+    h1{font-size:clamp(22px,4vw,32px);margin:0;font-weight:700}
+    .subtitle{opacity:.9;margin-top:4px}
+
+    .card{
+      background:var(--white);border-radius:20px;padding:18px;box-shadow:0 12px 40px rgba(2,6,23,.15);
+      backdrop-filter:saturate(1.2);
+    }
+
+    /* Tabs */
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab-btn{
+      appearance:none;border:1px solid rgba(255,255,255,.3); color:#fff; background:rgba(255,255,255,.12);
+      padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:600;letter-spacing:.2px;
+      transition:.25s;display:flex;align-items:center;gap:8px
+    }
+    .tab-btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.2)}
+    .tab-btn.active{background:#fff;color:var(--electric-blue);box-shadow:0 8px 20px rgba(2,6,23,.2)}
+
+    .panel{display:none;margin-top:16px}
+    .panel.active{display:block}
+
+    /* Section header */
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{font-size:12px;font-weight:600;padding:6px 10px;border-radius:999px;background:var(--neutral);color:#111}
+    .badge.ghost{background:transparent;border:1px dashed #cbd5e1;color:#334155}
+
+    /* Ayat */
+    .ayat{border:1px solid #eef2ff;border-radius:16px;padding:14px 14px 12px 14px;margin:12px 0;background:#f8fafc}
+    .ayat .ar{font-size:clamp(20px,3.6vw,30px);line-height:1.9;text-align:right;direction:rtl}
+    .ayat .id{font-size:14px;color:#334155;margin-top:6px}
+    .ayat .tools{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+
+    .btn{background:var(--electric-blue);color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;box-shadow:0 6px 16px rgba(37,99,235,.35);transition:.2s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.secondary{background:#fff;color:var(--electric-blue);border:1px solid #dbeafe;box-shadow:none}
+    .btn.small{padding:6px 10px;font-size:13px;border-radius:10px}
+
+    /* Warna tajwid hanya pada tanda */
+    .mad{color:var(--mad);font-weight:700}
+    .ghunnah{color:var(--ghunnah);font-weight:700}
+    .qolqolah{color:var(--qolqolah);font-weight:700}
+
+    .legend{display:flex;gap:8px;flex-wrap:wrap}
+    .legend .chip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px}
+    .dot{width:10px;height:10px;border-radius:50%}
+
+    /* Grid panels */
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media (min-width: 860px){
+      .grid{grid-template-columns: 1fr 1fr}
+    }
+
+    /* Ilustrasi simple */
+    .hero-illustration{
+      height:120px;border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(135deg,#dbeafe, #93c5fd);
+      border:1px solid #bfdbfe; box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+    }
+    .hero-illustration::after{
+      content:""; position:absolute; inset:0; background:
+        radial-gradient(300px 140px at 15% 80%, rgba(37,99,235,.35), transparent 60%),
+        radial-gradient(340px 160px at 85% 20%, rgba(99,102,241,.35), transparent 60%);
+      mix-blend-mode:multiply
+    }
+
+    footer{color:#e2e8f0;font-size:12px;text-align:center;padding:24px 0}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" role="img" aria-label="Logo tajwid"><path d="M12 2c5.523 0 10 4.477 10 10 0 2.598-1.003 4.967-2.647 6.73l1.547 2.308a1 1 0 0 1-1.66 1.128l-1.705-2.545A9.962 9.962 0 0 1 12 22C6.477 22 2 17.523 2 12S6.477 2 12 2zm0 4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM7 11.5a1 1 0 1 0 0 2h10a1 1 0 1 0 0-2H7z"/></svg>
+      </div>
+      <div>
+        <h1>Belajar Tajwid</h1>
+        <div class="subtitle"> fokus pada tanda tajwid: 
+        <strong class="mad">Merah=Mad</strong> </br><strong class="ghunnah">Hijau=Ghunnah</strong>  <strong class="qolqolah">Kuning=Qalqalah</strong></div>
+      </div>
+    </header>
+
+    <div class="tajwid.jpg" aria-hidden="true"></div>
+
+
+    <div class="tabs" role="tablist" aria-label="Pilihan hukum tajwid">
+      <button class="tab-btn active" data-tab="mad" role="tab" aria-selected="true">🔴 Mad</button>
+      <button class="tab-btn" data-tab="ghunnah" role="tab" aria-selected="false">🟢 Ghunnah</button>
+      <button class="tab-btn" data-tab="qolqolah" role="tab" aria-selected="false">🟡 Qalqalah</button>
+    </div>
+
+    <!-- MAD -->
+    <section id="panel-mad" class="panel active" role="tabpanel" aria-labelledby="Mad">
+      <div class="card">
+        <div class="section-head">
+          <h2 style="margin:0">Mad – 2, 4, 6 Harakat</h2>
+          <div class="badges"><span class="badge">Contoh Surah: An-Nās (114)</span></div>
+        </div>
+        <p style="margin-top:6px;color:var(--neutral-700)">Mad (مَدّ) secara bahasa berarti memanjangkan.
+Secara istilah tajwid, mad adalah memanjangkan suara huruf hijaiyah ketika bertemu huruf-huruf tertentu, baik karena adanya huruf mad atau sebab lain.Mad Thabi'i (2 harakat), Jaiz/munfashil (4 harakat), dan Lazim (6 harakat). <em>Highlight</em> hanya pada huruf mad.</p>
+ 
+ <p style="huruf mad">Huruf mad ada 3:
+</br>1. Alif (ا) → didahului huruf berharakat fathah.
+        Contoh: قَالَ
+</br>2. Wau (و) → didahului huruf berharakat dhammah.
+        Contoh: يَقُولُ
+</br>3. Ya (ي) → didahului huruf berharakat kasrah.
+        Contoh: قِيلَ</p>
+        <!-- Surah An-Nas 1–6 | Audio dari EveryAyah Alafasy_128kbps -->
+        <div class="grid">
+          <!-- Ayat 1 -->
+           <div class="ayat">
+            <div class="ar">
+      <p>
+  قُلْ أَ<span style="color:red;">عُو</span>ذُ بِرَبِّ النَّ<span style="color:red;">ا</span>سِ
+</p>
+            </div>
+            <div class="id">An-Nās 1 – contoh mad pada <span class="mad">عُو</span> (ū) & <span class="mad">ا</span> (ā).</n></div>
+              
+                             </div>
+            <div class="tools">
+              <button class="btn small" onclick="play('114001')">▶️ Putar Ayat 1</button>
+              <audio id="114001" src="https://everyayah.com/data/Alafasy_128kbps/114001.mp3"></audio>
+              <button class="btn small secondary" onclick="toggleNote(this)">ℹ️ Catatan</button>
+            </div>
+          </div>
+          <!-- Ayat 2 -->
+          <div class="ayat">
+            <div class="ar">مَلِ<span class>كِ</span> النَّ<span class="mad">ا</span>سِ</div>
+            <div class="id">An-Nās 2 – huruf mad dibaca panjang sesuai jenis mad yang berlaku dalam bacaan.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('114002')">▶️ Putar Ayat 2</button>
+              <audio id="114002" src="https://everyayah.com/data/Alafasy_128kbps/114002.mp3"></audio>
+            </div>
+          </div>
+          <!-- Ayat 3 -->
+          <div class="ayat">
+  <div class="ar"> إِلَ<span class="mad">ٰهِ</span> النَّ<span class="mad">ا</span>سِ</div>
+            <div class="id">An-Nās 3 – contoh mad pada alif (ā).</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('114003')">▶️ Putar Ayat 3</button>
+              <audio id="114003" src="https://everyayah.com/data/Alafasy_128kbps/114003.mp3"></audio>
+            </div>
+          </div>
+          <!-- Ayat 4 -->
+          <div class="ayat">
+            <div class="ar">
+   مِن شَرِّ الْوَسْ<span style="color:red;">وَا</span>سِ الْخَنَّ<span style="color:red;">ا</span>سِ
+           </div>
+            <div class="id">An-Nās 4 – mad pada wawu/alif sesuai kaidah.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('114004')">▶️ Putar Ayat 4</button>
+              <audio id="114004" src="https://everyayah.com/data/Alafasy_128kbps/114004.mp3"></audio>
+            </div>
+          </div>
+          <!-- Ayat 5 -->
+          <div class="ayat">
+            <div class="ar">   
+    ال<span style="color:red;">َّذِي</span> يُ<span style;">وَ</span>سْ<span style=>وِ</span>سُ فِ<span style="color:red;">ي</span> صُ<span style="color:red;">دُو</span>رِ الن<span style="color:red;">َّا</span>سِ
+  </div>
+  </div>
+            <div class="id">An-Nās 5 – penjagaan bacaan mad thabi'i pada wawu.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('114005')">▶️ Putar Ayat 5</button>
+              <audio id="114005" src="https://everyayah.com/data/Alafasy_128kbps/114005.mp3"></audio>
+            </div>
+          </div>
+          <!-- Ayat 6 -->
+          <div class="ayat">
+            <div class="ar">مِنَ الْجِنَّةِ وَالنَّ<span style="color:red;">ا</span>سِ
+</div>
+            <div class="id">An-Nās 6 – contoh panjang mad pada alif/ya/wawu sesuai kaidah.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('114006')">▶️ Putar Ayat 6</button>
+              <audio id="114006" src="https://everyayah.com/data/Alafasy_128kbps/114006.mp3"></audio>
+            </div>
+   <video width="320" height="140" source src="mad.mp4" type="video/mp4" controls>
+  </video>
+      </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge ghost">2 harakat = Thabi'i</span>
+          <span class="badge ghost">4 harakat = Jaiz/munfashil</span>
+          <span class="badge ghost">6 harakat = Lazim</span>
+        </div>
+        <div>
+    </section>
+
+    <!-- GHUNNAH -->
+    <section id="panel-ghunnah" class="panel" role="tabpanel" aria-labelledby="Ghunnah">
+      <div class="card">
+        <div class="section-head">
+          <h2 style="margin:0">Ghunnah – Dengung & Tidak Dengung</h2>
+          <div class="badges"><span class="badge">Contoh Surah: Al-Kawtsar (108)</span></div>
+        </div>
+        <p style="margin-top:6px;color:var(--neutral-700)">Ghunnah adalah suara dengung dari rongga hidung ketika membaca nun (ن) atau mim (م) pada kondisi tertentu, dengan panjang bacaan rata-rata 2 harakat.Ghunnah muncul pada <strong>ن/م tasydid</strong>, ikhfa’, idgham bighunnah, iqlab; <em>tanpa ghunnah</em> (idzhar) tidak berdengung. Hanya tanda ghunnah yang diberi warna.</p>
+
+        <!-- Surah Al-Kawthar 1–3 | Audio Alafasy -->
+        <div class="grid">
+          <!-- Ayat 1 -->
+          <div class="ayat">
+            <div class="ar">إِ<span class="ghunnah">نَّ</span><span>ا</span> أَعْطَيْ<span class=>نَا</span>كَ الْكَوْثَرَ</div>
+            <div class="id">Al-Kawtsar 1 – Ghunnah pada <span class="ghunnah">نّ</span> (nun tasydid) & idgham bighunnah.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('108001')">▶️ Putar Ayat 1</button>
+              <audio id="108001" src="https://everyayah.com/data/Alafasy_128kbps/108001.mp3"></audio>
+            </div>
+          </div>
+          <!-- Ayat 2 -->
+          <div class="ayat">
+            <div class="ar">فَصَلِّ لِرَبِّكَ وَا<span class="">نْ</span>حَرْ</div>
+            <div class="id">Al-Kawtsar 2 – <strong>Idzhar</strong> (tanpa ghunnah) pada <span style="border-bottom:2px dotted #94a3b8">نْ</span> sebelum ح (ditandai garis putus abu; tidak diberi warna hijau).</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('108002')">▶️ Putar Ayat 2</button>
+              <audio id="108002" src="https://everyayah.com/data/Alafasy_128kbps/108002.mp3"></audio>
+            </div>
+          </div>
+          <!-- Ayat 3 -->
+          <div class="ayat">
+            <div class="ar">إِ<span class="ghunnah">نَّ</span> شَانِئَكَ هُوَ الْأَبْتَرُ</div>
+            <div class="id">Al-Kawtsar 3 – Ghunnah pada <span class="ghunnah">نّ</span> (nun tasydid).</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('108003')">▶️ Putar Ayat 3</button>
+              <audio id="108003" src="https://everyayah.com/data/Alafasy_128kbps/108003.mp3"></audio>
+            </div>
+          </div>
+          <video width="350" height="150" controls>
+  <source src="ghunnah.mp4" type="video/mp4">
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge ghost">Dengung: نّ / مّ, ikhfa’, idgham</span>
+          <span class="badge ghost">Tidak dengung: Idzhar (nun/mim sukun bertemu huruf halqi)</span>
+          <span class="badge ghost">
+          </span>
+</div>
+      </div>
+    </section>
+
+    <!-- QALQALAH -->
+    <section id="panel-qolqolah" class="panel" role="tabpanel" aria-labelledby="Qalqalah">
+      <div class="card">
+        <div class="section-head">
+          <h2 style="margin:0">Qalqalah Kecil  Sedang  Kuat</h2>
+          <div class="badges" style="gap:6px"><span class="badge">Contoh Surah: Al-Ikhlāṣ (112)</span><span class="badge">+ Al-Masad (111) untuk kuat</span></div>
+        </div>
+        <p style="margin-top:6px;color:var(--neutral-700)">Qalqalah adalah pantulan suara pada huruf qalqalah ketika sukun (mati), baik sukun asli maupun karena waqaf (berhenti).Qalqalah pada huruf <strong>ق ط ب ج د</strong>. Kecil (di tengah kata), Sedang (di akhir saat waqaf), Kuat (di akhir dengan tasydid).Jadi, qalqalah membuat bacaan huruf terdengar memantul/bergaung, tidak mati kaku.
+</p>
+
+        <!-- Surah Al-Ikhlas 1–4 -->
+        <div class="grid">
+          <div class="ayat">
+          <div class="ar"> قُلْ هُوَ اللَّهُ أَحَ<span style="color:orange;">دْ</span></div>
+            </div>
+            <div class="id">Al-Ikhlāṣ 1 – Jika berhenti di <span class="qolqolah">دْ</span> pada "أَحَ<span class="qolqolah">دْ</span>" → qalqalah <strong>Sedang</strong> (akhir ayat).</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('112001')">▶️ Putar Ayat 1</button>
+              <audio id="112001" src="https://everyayah.com/data/Alafasy_128kbps/112001.mp3"></audio>
+            </div>
+          </div>
+          <div class="ayat">
+            <div class="ar"> اللَّهُ الصَّمَ<span style="color:orange;">دْ</span>
+  </div>
+            <div class="id">Al-Ikhlāṣ 2 – Berhenti di <span class="qolqolah">دْ</span> pada "الصَّمَ<span class="qolqolah">دْ</span>" → <strong>Sedang</strong>.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('112002')">▶️ Putar Ayat 2</button>
+              <audio id="112002" src="https://everyayah.com/data/Alafasy_128kbps/112002.mp3"></audio>
+            </div>
+          </div>
+          <div class="ayat">
+            <div class="ar">لَمْ يَلِ<span class="qolqolah">دْ</span> وَلَمْ يُولَ<span class="qolqolah">دْ</span></div>
+            <div class="id">Al-Ikhlāṣ 3 – <span class="qolqolah">دْ</span> di tengah bacaan (tidak waqaf) → qalqalah <strong>Kecil</strong>.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('112003')">▶️ Putar Ayat 3</button>
+              <audio id="112003" src="https://everyayah.com/data/Alafasy_128kbps/112003.mp3"></audio>
+            </div>
+          </div>
+          <div class="ayat">
+             <div class="ar">
+    وَلَمْ يَكُن لَّهُ كُفُوًا أَحَ<span style="color:orange;">دٌ</span>
+          </div>
+            <div class="id">Al-Ikhlāṣ 4 – berhenti di "أَحَ<span class="qolqolah">دْ</span>" → <strong>Sedang</strong>.</div>
+            <div class="tools">
+              <button class="btn small" onclick="play('112004')">▶️ Putar Ayat 4</button>
+              <audio id="112004" src="https://everyayah.com/data/Alafasy_128kbps/112004.mp3"></audio>
+            </div>
+          </div>
+          <video width="350" height="150" controls>
+  <source src="qolqolah.mp4" type="video/mp4">
+        </div>
+
+        <!-- Surah Al-Masad untuk Qalqalah KUAT (akhir tasydid) -->
+        <div class="ayat">
+          <div class="ar">تَبَّتْ يَدَا أَبِي لَهَبٍ وَ<span class="qolqolah">تَبَّ</span></div>
+          <div class="id">Al-Masad 1 – berhenti pada <span class="qolqolah">بّ</span> (tasydid) → qalqalah <strong>Kuat</strong>.</div>
+          <div class="tools">
+            <button class="btn small" onclick="play('111001')">▶️ Putar (Al-Masad 1)</button>
+            <audio id="111001" src="https://everyayah.com/data/Alafasy_128kbps/111001.mp3"></audio>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <footer>
+      © 2025 Belajar Tajwid • Akses audio oleh Mishary Al-‘Afasy via EveryAyah.com
+    </footer>
+  </div>
+
+  <script>
+    const videos = document.querySelectorAll('video');
+
+videos.forEach(v => {
+  v.addEventListener('play', () => {
+    videos.forEach(other => {
+      if (other !== v) {
+        other.pause(); // hentikan video lain
+      }
+    });
+  });
+});
+    // Tabs interaksi
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = {
+      mad: document.getElementById('panel-mad'),
+      ghunnah: document.getElementById('panel-ghunnah'),
+      qolqolah: document.getElementById('panel-qolqolah')
+    };
+    tabs.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        tabs.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        Object.values(panels).forEach(p=>p.classList.remove('active'));
+        panels[btn.dataset.tab].classList.add('active');
+      })
+    })
+
+    // Audio helper
+    function play(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      // pause audios lain
+      document.querySelectorAll('audio').forEach(a=>{ if(a!==el){ a.pause(); a.currentTime=0; }});
+      el.currentTime = 0; el.play();
+    }
+
+    function toggleNote(btn){
+      const ayat = btn.closest('.ayat');
+      if(!ayat) return;
+      const noteId = 'note-'+Math.random().toString(36).slice(2,7);
+      let note = ayat.querySelector('.note');
+      if(!note){
+        note = document.createElement('div');
+        note.className = 'note';
+        note.style.cssText = 'margin-top:8px;font-size:13px;color:#334155;background:#fff;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 10px';
+        note.innerHTML = 'Tips: Panjang bacaan mad mengikuti jenisnya (2/4/6 harakat). Fokus hanya pada huruf berwarna merah.';
+        ayat.appendChild(note);
+      } else {
+        note.remove();
+      }
+    }
+  </script>
+</body>
+</html>
